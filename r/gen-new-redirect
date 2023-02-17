@@ -1,0 +1,43 @@
+#!/bin/bash
+# Mac only
+
+main() {
+    mkdir -p $NAME_ARG
+    cp template.html $NAME_ARG/index.html
+    gsed -i "s,LINK,${URL_ARG},g" $NAME_ARG/index.html
+}
+
+while [[ $# > 0 ]]
+do
+    key="$1"
+    case $key in
+        -u|--url)
+            URL_ARG="$2";
+            shift
+            shift
+            ;;
+        -n|--name)
+            NAME_ARG="$2";
+            shift
+            shift
+            ;;
+        -q|--quite)
+            QUITE=yes
+            shift
+            ;;
+        -h|--help)
+            cat "$0"
+            exit
+            ;;
+        *)
+            echo "bad input"
+            echo "============="
+            cat "$0"
+            echo "============="
+            echo "bad input"
+            exit 1
+            ;;
+    esac
+done
+
+main
